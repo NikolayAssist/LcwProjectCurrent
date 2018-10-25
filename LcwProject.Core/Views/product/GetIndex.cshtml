@@ -1,0 +1,47 @@
+﻿@using LcwProject.Core.Models
+@model ProductDTO
+@{
+    ViewBag.Title = "GetIndex";
+}
+<div class="container">
+    <div class="panel panel-primary" style="margin-top:20px">
+        <div class="panel-title">
+            Ürün Detay
+        </div>
+        <div class="panel-body">
+            <form method="post" action="@Url.Action("AddOrEdit","product")">
+
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(a=>a.ProductId)
+
+                <div class="form-group">
+                    @Html.LabelFor(a => a.Barcode)
+                    @Html.TextBoxFor(a => a.Barcode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(a=>a.Barcode)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(a => a.Description)
+                    @Html.TextBoxFor(a => a.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(a => a.Description)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(a => a.Quantity)
+                    @Html.TextBoxFor(a => a.Quantity, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(a => a.Quantity)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(a => a.Price)
+                    @Html.TextBoxFor(a => a.Price, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(a => a.Price)
+
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

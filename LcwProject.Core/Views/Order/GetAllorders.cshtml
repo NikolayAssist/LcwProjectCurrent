@@ -1,0 +1,108 @@
+﻿@using LcwProject.Core.Models
+@model IEnumerable<CustomerOrderHeaderDTO>
+
+@{
+    ViewBag.Title = "GetAllorders";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="btn-group">
+            <a href="@Url.Action("index","order")" role="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Ekle</a>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Sipariş No</th>
+                    <th>Müşteri Adı</th>
+                    <th>Adres</th>
+                    <th>Total Fiyat</th>
+                    <th>Düzenle</th>
+                    <th>Sil</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.OrderId</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.OrderAdress</td>
+                        <td>@item.OrderPrice</td>
+                        <td><a href="@Url.Action("GetIndex","order",new { id = item.OrderId })" role="button" class="btn btn-warning btn-xs"> <span class="glyphicon glyphicon-edit"></span> Düzenle</a></td>
+                        <td><a id="@item.OrderId" onclick="GetConfirm(@item.OrderId)" role="button" class="btn btn-danger btn-xs"> <span class="glyphicon glyphicon-edit"></span> Sil</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+
+    <script src="~/Scripts/bootbox.js"></script>
+    <script type="text/javascript">
+        let url = "";
+        function GetConfirm(OrderId) {
+            
+            var Row = $("#" + OrderId).parent().parent()
+            debugger;
+            bootbox.confirm({
+                message: "Sipariş No : " + OrderId + " Silinecektir Onaylıyor Musunuz ?",
+                buttons: {
+                    confirm: {
+                        label: 'Evet',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Hayır',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+
+                    debugger;
+                    if (result) {
+
+                        $.ajax({
+                            url: url + "orders/" + OrderId,
+                            dataType: "json",
+                            contentType: "application/json",
+                            method: "DELETE",
+                            success: function (response) {
+                                Row.remove();
+                            },
+                            error: function (response) {
+                                console.log(response.responseText);
+                            }
+                        })
+                    }
+                }
+            });
+        }
+
+        window.onload = function () {
+            
+            function GETURL() {
+                $.ajax({
+                    url: "/apiInfo/GetApiURL",
+                    async: false,
+                    success: function (APIURL) {
+                        url = APIURL;
+                    },
+                    error: function (response) {
+                        console.log(response.responseText);
+                    }
+                })
+            }
+            GETURL();
+        }
+
+    </script>
+
+}
+
+
+

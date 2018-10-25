@@ -1,0 +1,40 @@
+﻿@using LcwProject.Core.Models
+@model IEnumerable<ProductDTO>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Ürünler</h2>
+
+<div class="container">
+    <a href="@Url.Action("GetIndexNew","product")" role="button" class="btn btn-success"><span class="glyphicon glyphicon-plus" style="font-size:10px"></span> Yeni Ürün</a>
+    <hr />
+
+    <table class="table table-striped" id="customerDataTable">
+        <thead>
+            <tr>
+                <th>Ürün ID</th>
+                <th>Barcode</th>
+                <th>Açıklama</th>
+                <th>Miktar</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductId</td>
+                    <td>@item.Barcode</td>
+                    <td>@item.Description</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price</td>
+                    <td><a href="@Url.Action("GetIndex","product",new { id = item.ProductId })" role="button" class="btn btn-warning btn-xs"> <span class="glyphicon glyphicon-edit"></span> Düzenle</a></td>
+                    <td><a href="@Url.Action("DeleteProduct","product",new { id = item.ProductId })" role="button" class="btn btn-danger btn-xs"> <span class="glyphicon glyphicon-edit"></span> Sil</a></td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+

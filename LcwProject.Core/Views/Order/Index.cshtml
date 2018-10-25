@@ -1,0 +1,98 @@
+﻿@using LcwProject.Core.Models
+@model CustomerOrderHeaderDTO
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row">
+    <div class="panel panel-default" style="margin-top:30px">
+
+        <div class="panel-heading">Sipariş Formu</div>
+
+        <form method="post" action="/order/PostOrder">
+            <div class="panel-body">
+
+                <div class="row">
+                    @Html.HiddenFor(a => a.OrderId)
+                    <div class="col-lg-12">
+                        <div class="col-lg-4">
+                            Müşteri Seçiniz : @Html.DropDownListFor(a => a.CustomerId, new SelectList(ViewBag.Customers, "CustomerId", "CustomerName", Model.CustomerId), new { @class = "form-control" })
+                        </div>
+
+                        <div class="col-lg-8">
+                            Adres :   @Html.TextBoxFor(a => a.OrderAdress, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-lg-2">
+                            Ürün  : @Html.DropDownListFor(a => a.OrderRow.ProductId, new SelectList(ViewBag.Products, "ProductId", "Description", "--Seçiniz--"), new { @class = "form-control" })
+                        </div>
+                        <div class="col-lg-2">
+                            Ürün Barkodu  : @Html.TextBoxFor(a => a.OrderRow.Barcode, new { @class = "form-control" })
+                        </div>
+                        <div class="col-lg-2">
+                            Açıklama  : @Html.TextBoxFor(a => a.OrderRow.Description, new { @class = "form-control" })
+                        </div>
+                        <div class="col-lg-1">
+                            Miktar  : @Html.TextBoxFor(a => a.OrderRow.Amount, new { @class = "form-control", @type = "number" })
+                        </div>
+                        <div class="col-lg-2">
+                            Birim Fiyat  : @Html.TextBoxFor(a => a.OrderRow.Price, new { @class = "form-control", @type = "number" })
+                        </div>
+                        <input type="hidden" value="0" id="CustomerOrderId" />
+                        <input type="hidden" value="0" id="GUID" />
+                        <button id="btnAddRow" type="button" style="margin-top:18px" class="btn btn-primary"> <span class="glyphicon glyphicon-plus" style="font-size:15px;"></span> Ekle</button>
+                        <button id="btnEditRow" type="button" style="margin-top:18px" class="btn btn-primary"> <span class="glyphicon glyphicon-arrow-down" style="font-size:15px;"></span>Düzenle</button>
+                    </div>
+
+                </div>
+                <hr />
+                <b>Sipariş Satırları</b>
+                <b class=".loading"></b>
+                <div id="BoxListContent">
+
+                    @if (Model.CustomerOrder != null)
+                    {
+                        foreach (var iOrder in Model.CustomerOrder)
+                        {
+                            <div class="row" style="border-bottom:1px solid">
+                                <div class="col-lg-12">
+                                    <div class="col-lg-2">
+                                        @iOrder.ProductName
+                                    </div>
+                                    <div class="col-lg-2">
+                                        @iOrder.Barcode
+                                    </div>
+                                    <div class="col-lg-2">
+                                        @iOrder.Description
+                                    </div>
+                                    <div class="col-lg-1">
+                                        @iOrder.Amount
+                                    </div>
+                                    <div class="col-lg-2">
+                                        @iOrder.Price
+                                    </div>
+                                    <input type="hidden" id="@iOrder.CustomerOrderId" />
+                                    <button type="button" onclick="btnClick(@iOrder.CustomerOrderId,'','delete')" class="btn btn-danger"> <span class="glyphicon glyphicon-minus" style="font-size:10px;"></span> Sil </button>
+                                    <button type="button" onclick="btnClick(@iOrder.CustomerOrderId,'@iOrder.GUID','edit')" class="btn btn-warning"> <span class="glyphicon glyphicon-edit" style="font-size:10px;"></span> Düzenle </button>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+
+            </div>
+            @ViewBag.message
+            <div class="panel-footer">
+                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span> Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/_orderbox.js"></script>
+}

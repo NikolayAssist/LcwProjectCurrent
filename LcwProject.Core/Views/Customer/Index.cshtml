@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>Kullanıcılar</h2>
+<div class="container">
+    <button id="btnNewCustomer" class="btn btn-success"><span class="glyphicon glyphicon-plus" style="font-size:10px"></span> Yeni Müşteri</button>
+    <hr />
+
+    <table class="table table-striped" id="customerDataTable">
+        <thead>
+            <tr>
+                <th>Müşteri ID</th>
+                <th>Müşteri Adı</th>
+                <th>Müşteri Adresi</th>
+                <th>Düzenle</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+
+    </table>
+
+    <div class="modal" tabindex="-1" role="dialog" id="customerModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Müşteri Bilgileri</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Kapat">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" id="formData">
+
+                    <input type="hidden" id="CustomerId" name="CustomerId" />
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="CustomerName">Müşteri Adı :</label>
+                            <input type="text" id="CustomerName" name="CustomerName" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="CustomerAdress">Müşteri Adresi :</label>
+                            <input type="text" id="CustomerAdress" name="CustomerAdress" class="form-control" />
+                        </div>
+                        <div id="result">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/datatables.js"></script>
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/_customer.js"></script>
+
+}
+
